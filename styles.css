@@ -1,0 +1,377 @@
+body{
+  background:black;transition:1s ease;-moz-transition:1s ease;-webkit-transition:1s ease;
+  color: #cfcfd3;
+  font-family: 'Inconsolata', monospace;
+}
+body.powered{background:#202021;}
+
+.sectionTitle{
+  text-align: center;
+  margin-top:5%;
+  letter-spacing: .10em;
+
+
+}
+
+#gameContainer{
+  position: fixed;
+  width:1600px;
+  height: 800px;
+  top: 50%;
+  left: 50%;
+  margin-top: -350px;
+  margin-left: -800px;
+  display:none;
+}
+
+#newsTicker{
+  color: orange;
+  position:fixed;
+  width:450px;
+  height:370px;
+  margin-top:5px;
+  visibility:hidden;
+
+}
+
+#terminal{
+  color: green;
+  position:fixed;
+  width:450px;
+  height:390px;
+  margin-top:400px;
+}
+
+#systemUpgrades{
+  color: white;
+  position:fixed;
+  margin-left:460px;
+  width:350px;
+  height:250px;
+  margin-top:5px;
+}
+.upgradeTitle{
+  display:inline-block;
+
+}
+.upgradeCost{
+text-align: right;
+display:inline-block;
+float:right;
+}
+.upgradeContainer{
+  margin-top:5%;
+  width:80%;
+  margin-left:10%;
+  margin-right:10%;
+}
+.upgradeContainer:hover{
+  cursor:pointer;
+}
+#memoryUpgrade{
+  display:none;
+}
+#networkUpgrade{
+  display:none;
+}
+#cpuUpgrade{
+  display:none;
+}
+#memoryUpgrade{
+  display:none;
+}
+#moduleUpgrade{
+  display:none;
+}
+#coreUpgrade{
+  display:none;
+}
+
+#taskAutomations{
+  color: white;
+  position:fixed;
+  margin-left:460px;
+  width:350px;
+  height:250px;
+  margin-top:270px;
+  visibility:hidden;
+}
+
+#connections{
+  color: white;
+  position:fixed;
+  margin-left:460px;
+  width:350px;
+  height:250px;
+  margin-top:535px;
+  visibility:hidden;
+}
+
+#assets{
+  color: white;
+  position:fixed;
+  margin-left:850px;
+  width:350px;
+  height:250px;
+  margin-top:5px;
+  visibility:hidden;
+}
+
+#researchDevelopment{
+  color: white;
+  position:fixed;
+  margin-left:850px;
+  width:350px;
+  height:250px;
+  margin-top:270px;
+  visibility:hidden;
+}
+
+#realmStatus{
+  color: white;
+  position:fixed;
+  margin-left:850px;
+  width:350px;
+  height:250px;
+  margin-top:535px;
+  visibility:hidden;
+}
+
+#resources{
+  color: white;
+  position:fixed;
+  margin-left:1235px;
+  width:350px;
+  height:250px;
+  margin-top:5px;
+}
+.resourceTitle{
+  display:inline-block;
+
+}
+.resource{
+text-align: right;
+display:inline-block;
+float:right;
+}
+.resourceContainer{
+  margin-top:5%;
+  width:80%;
+  margin-left:10%;
+  margin-right:10%;
+}
+#coresContainer{
+  display:none;
+}
+
+#resourceAllocation{
+  border:solid;
+  color: white;
+  position:fixed;
+  margin-left:1235px;
+  width:350px;
+  height:250px;
+  margin-top:270px;
+  display:none;
+}
+
+#systemStatus{
+  color: white;
+  position:fixed;
+  margin-left:1235px;
+  width:350px;
+  height:250px;
+  margin-top:535px;
+  text-align:center;
+}
+
+.statusElement{
+  height:80px;
+  width:150px;
+  display: inline-block;
+}
+.statusTitle{
+  margin-top:20%;
+}
+.statusPercent{
+  margin-top:5%;
+  font-size:24px;
+}
+.statusCol{
+  display:inline-block;
+}
+
+#network{
+  display:none;
+}
+
+.key{
+  border:solid;
+  border-width: thin;
+  border-radius:4px;
+  padding-left:7px;
+  padding-right:7px;
+  padding-bottom:2px;
+  padding-top:2px;
+}
+
+#pipeline{
+  text-align: center;
+  color:grey;
+  display:none;
+  width:1600px;
+  white-space: nowrap; /* Keeps the content on a single line */
+}
+
+#pipeline li{
+  text-align:center;
+  list-style-type: none;
+  float:left;
+  margin-left:10%;
+}
+
+#powerOn{
+  font-size: 24px;
+  text-align: center;
+  line-height: 100%;
+}
+
+#intro{
+  display:none;
+  margin-top:10%;
+}
+#prompt{
+  display:none;
+  margin-top:5%;
+}
+#nameInput{
+  display:none;
+  margin-top:5%;
+  text-align: center;
+}
+
+#name{
+  width: 700px;
+  border: none;
+  background-color: transparent;
+  color: white;
+  height: 100px;
+  font-size: 64px;
+  letter-spacing: .15em;
+  font-family:  'Inconsolata', monospace;
+  text-align: center;
+}
+
+#wb.cycleFinished{
+color:green;transition:1s ease;-moz-transition:1s ease;-webkit-transition:1s ease;
+}
+
+#wb.cycleBlocked{
+color:red;transition:1s ease;-moz-transition:1s ease;-webkit-transition:1s ease;
+}
+
+/* The typing effect */
+@keyframes greenBoy {
+  0% { color:green; }
+  100% { color:grey;}
+}
+
+
+.btn{
+  padding: 5px 5px 5px 5px;
+  border-radius:4px;
+  border:solid;
+  cursor:pointer;
+}
+
+.center {
+    height: 90vh;
+    position: relative;
+}
+
+.center .btn {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.typewriter-fade h1 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation:
+    typing 7s steps(80, end),
+    fade-away 10s linear;
+    -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
+ -moz-animation-fill-mode: forwards;    /* FF 5+ */
+ -o-animation-fill-mode: forwards;      /* Not implemented yet */
+ -ms-animation-fill-mode: forwards;     /* IE 10+ */
+ animation-fill-mode: forwards;         /* When the spec is finished */
+ text-align:center;
+}
+
+.typewriter-half h1 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation:
+    typing 7s steps(80, end),
+    fade-away-half 10s linear;
+    -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
+ -moz-animation-fill-mode: forwards;    /* FF 5+ */
+ -o-animation-fill-mode: forwards;      /* Not implemented yet */
+ -ms-animation-fill-mode: forwards;     /* IE 10+ */
+ animation-fill-mode: forwards;         /* When the spec is finished */
+ text-align:center;
+}
+
+.typewriter-no-fade h1 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation:
+    typing 7s steps(80, end),
+    -webkit-animation-fill-mode: forwards; /* Chrome 16+, Safari 4+ */
+     -moz-animation-fill-mode: forwards;    /* FF 5+ */
+     -o-animation-fill-mode: forwards;      /* Not implemented yet */
+     -ms-animation-fill-mode: forwards;     /* IE 10+ */
+     animation-fill-mode: forwards;         /* When the spec is finished */
+ text-align:center;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 00px }
+  to { width: 100% }
+}
+
+@keyframes fade-away {
+  0% { opacity: 1; }
+  100% { opacity: 0; display:none;}
+}
+
+@keyframes fade-away-half {
+  0% { opacity: 1; }
+  100% { opacity: 0.5; display:none;}
+}
+
+
+
+@keyframes blink {
+	0% { opacity: 0; }
+	50% { opacity: 1; }
+  100% { opacity: 0; }
+}
