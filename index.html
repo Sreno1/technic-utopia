@@ -5,7 +5,7 @@
     <title>technic-utopia</title> <!--Get title font from Rocket hometab-->
     <link rel="stylesheet" href="styles.css" type="text/css">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script src="js/main.js" type="text/javascript"></script>   
+    <script src="main.js" type="text/javascript"></script>   
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
   </head>
   <body onload="begin()">
@@ -32,10 +32,21 @@
         </div>
       </div>
       <div id="terminal">
+        <div id="output" onCLick="command()"></div>
+        <input type="text" id="commandLine"></input>
+        <div id="commandHeader">
+          <div id ="commanderName">sample name</div>
+          <div id="commandDelimiter" class="blinking">:</div>
+        </div>
+        
       </div>
-      <div id="systemUpgrades">
+      <div id="systemUpgrades" class="module">
         <div class="sectionTitle">
           system upgrades
+        </div>
+        <div class="upgradeContainer" id="moduleUpgrade">
+          <div class="upgradeTitle">[a]dd module</div>
+          <div class="upgradeCost" id="moduleCost"></div>
         </div>
         <div class="upgradeContainer" id="diskUpgrade">
           <div class="upgradeTitle">upgrade [d]isk</div>
@@ -45,49 +56,45 @@
           <div class="upgradeTitle">upgrade [m]emory</div>
           <div class="upgradeCost" id="memoryCost"></div>
         </div>
-        <div class="upgradeContainer" id="networkUpgrade">
-          <div class="upgradeTitle">upgrade [n]etwork</div>
-          <div class="upgradeCost" id="networkCost"></div>
-        </div>
         <div class="upgradeContainer" id="cpuUpgrade">
           <div class="upgradeTitle">upgrade [c]pu</div>
           <div class="upgradeCost" id="cpuCost"></div>
         </div>
-        <div class="upgradeContainer" id="moduleUpgrade">
-          <div class="upgradeTitle">[a]dd module</div>
-          <div class="upgradeCost" id="moduleCost"></div>
+        <div class="upgradeContainer" id="networkUpgrade">
+          <div class="upgradeTitle">upgrade [n]etwork</div>
+          <div class="upgradeCost" id="networkCost"></div>
         </div>
         <div class="upgradeContainer" id="coreUpgrade">
           <div class="upgradeTitle">add [c]ore</div>
           <div class="upgradeCost" id="coreCost"></div>
         </div>
       </div>
-      <div id="taskAutomations">
+      <div id="taskAutomations" class="module">
         <div class="sectionTitle">
           task automations
         </div>
       </div>
-      <div id="connections">
+      <div id="connections" class="module">
         <div class="sectionTitle">
           connections
         </div>
       </div>
-      <div id="assets">
+      <div id="assets" class="module">
         <div class="sectionTitle">
           assets
         </div>
       </div>
-      <div id="researchDevelopment">
+      <div id="researchDevelopment" class="module">
         <div class="sectionTitle">
           research & development
         </div>
       </div>
-      <div id="realmStatus">
+      <div id="realmStatus" class="module">
         <div class="sectionTitle">
           realm status
         </div>
       </div>
-      <div id="resources">
+      <div id="resources" class="module">
         <div class="sectionTitle">
           system resources
         </div>
@@ -108,12 +115,12 @@
           <div class="resource" id="cores"></div>
         </div>
       </div>
-      <div id="resourceAllocation">
+      <div id="resourceAllocation" class="module">
         <div class="sectionTitle">
           resource allocation
         </div>
       </div>
-      <div id="systemStatus">
+      <div id="systemStatus" class="module">
         <div class="sectionTitle">
           system status
         </div>

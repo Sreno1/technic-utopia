@@ -15,40 +15,89 @@ body.powered{background:#202021;}
 
 #gameContainer{
   position: fixed;
-  width:1600px;
+  width:100%;
   height: 800px;
   top: 50%;
   left: 50%;
-  margin-top: -350px;
-  margin-left: -800px;
+  margin-top: -24%;
+  margin-left: -53%;
   display:none;
+}
+
+#output{
+  background-color:black;
+  color:white;
+  width:200px;
+  height:200px;
 }
 
 #newsTicker{
   color: orange;
   position:fixed;
-  width:450px;
-  height:370px;
-  margin-top:5px;
+  width:30%;
+  height:45%;
+  margin-left: 4%;
+  margin-top:1%;
   visibility:hidden;
-
 }
 
 #terminal{
   color: green;
   position:fixed;
-  width:450px;
-  height:390px;
-  margin-top:400px;
+  width: 30%;
+  height: 45%;
+  margin-top: 26%;
+  margin-left: 4%;
+}
+
+#commandHeader{
+  margin-top:9%;
+  position: fixed;
+  width:15%;
+}
+
+#commandLine{
+  position: fixed;
+    margin-top: 9%;
+    margin-left: 16%;
+    background-color: transparent;
+    color: green!important;
+    line-height: 1em;
+    font-size:16px;
+    font-family: 'Inconsolata', monospace;
+    border:none;
+}
+
+#commanderName{
+  float:right;
+}
+
+#commandDelimiter{
+  margin-left:100%;
+}
+
+.blinking{
+    animation:blinkingText 1s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: green;    }
+    45%{    color: transparent; }
+    50%{    color: transparent; }
+    55%{    color:transparent;  }
+    100%{   color: green;    }
+}
+
+.module{
+  height:25%;
+  width:19%;
+  position:fixed;
+  color:white;
+  padding:1%;
 }
 
 #systemUpgrades{
-  color: white;
-  position:fixed;
-  margin-left:460px;
-  width:350px;
-  height:250px;
-  margin-top:5px;
+  margin-left:35%;
+  margin-top:1%;
 }
 .upgradeTitle{
   display:inline-block;
@@ -65,85 +114,61 @@ float:right;
   margin-left:10%;
   margin-right:10%;
 }
+.upgradeContainer.insufficient{
+color:red;transition:.5s ease;-moz-transition:.5s ease;-webkit-transition:.5s ease;
+}
+.upgradeContainer.sufficient{
+color:green;transition:.5s ease;-moz-transition:.5s ease;-webkit-transition:.5s ease;
+}
 .upgradeContainer:hover{
   cursor:pointer;
 }
-#memoryUpgrade{
-  display:none;
-}
 #networkUpgrade{
-  display:none;
+  visibility:hidden;
 }
 #cpuUpgrade{
-  display:none;
+  visibility:hidden;
 }
 #memoryUpgrade{
-  display:none;
-}
-#moduleUpgrade{
-  display:none;
+  visibility:hidden;
 }
 #coreUpgrade{
-  display:none;
+  visibility:hidden;
 }
 
 #taskAutomations{
-  color: white;
-  position:fixed;
-  margin-left:460px;
-  width:350px;
-  height:250px;
-  margin-top:270px;
+  margin-left:35%;
+  margin-top:18%;
   visibility:hidden;
 }
 
 #connections{
-  color: white;
-  position:fixed;
-  margin-left:460px;
-  width:350px;
-  height:250px;
-  margin-top:535px;
+  margin-left:35%;
+  margin-top:35%;
   visibility:hidden;
 }
 
 #assets{
-  color: white;
-  position:fixed;
-  margin-left:850px;
-  width:350px;
-  height:250px;
-  margin-top:5px;
+  margin-left:56%;
   visibility:hidden;
+  margin-top:1%;
 }
 
 #researchDevelopment{
-  color: white;
-  position:fixed;
-  margin-left:850px;
-  width:350px;
-  height:250px;
-  margin-top:270px;
+  margin-left:56%;
+  margin-top:18%;
   visibility:hidden;
 }
 
 #realmStatus{
-  color: white;
-  position:fixed;
-  margin-left:850px;
-  width:350px;
-  height:250px;
-  margin-top:535px;
+  margin-left:56%;
+  margin-top:35%;
   visibility:hidden;
 }
 
 #resources{
-  color: white;
-  position:fixed;
-  margin-left:1235px;
-  width:350px;
-  height:250px;
-  margin-top:5px;
+  margin-left:77%;
+  margin-top:1%;
 }
 .resourceTitle{
   display:inline-block;
@@ -156,38 +181,30 @@ float:right;
 }
 .resourceContainer{
   margin-top:5%;
-  width:80%;
-  margin-left:10%;
-  margin-right:10%;
+  width:100%;
 }
 #coresContainer{
   display:none;
 }
 
 #resourceAllocation{
-  border:solid;
-  color: white;
   position:fixed;
-  margin-left:1235px;
-  width:350px;
-  height:250px;
-  margin-top:270px;
-  display:none;
+  margin-left:77%;
+  margin-top:18%;
+  visibility:hidden;
 }
 
 #systemStatus{
   color: white;
   position:fixed;
-  margin-left:1235px;
-  width:350px;
-  height:250px;
-  margin-top:535px;
-  text-align:center;
+  margin-left:77%;
+  margin-top:35%;
+  text-align: center;
 }
 
 .statusElement{
   height:80px;
-  width:150px;
+  width:40%;
   display: inline-block;
 }
 .statusTitle{
@@ -202,7 +219,7 @@ float:right;
 }
 
 #network{
-  display:none;
+  visibility:hidden;
 }
 
 .key{
@@ -227,7 +244,7 @@ float:right;
   text-align:center;
   list-style-type: none;
   float:left;
-  margin-left:10%;
+  margin-left:7%;
 }
 
 #powerOn{
@@ -263,19 +280,12 @@ float:right;
 }
 
 #wb.cycleFinished{
-color:green;transition:1s ease;-moz-transition:1s ease;-webkit-transition:1s ease;
+color:green;transition:.5s ease;-moz-transition:.5s ease;-webkit-transition:.5s ease;
 }
 
 #wb.cycleBlocked{
-color:red;transition:1s ease;-moz-transition:1s ease;-webkit-transition:1s ease;
+color:red;transition:.5s ease;-moz-transition:.5s ease;-webkit-transition:.5s ease;
 }
-
-/* The typing effect */
-@keyframes greenBoy {
-  0% { color:green; }
-  100% { color:grey;}
-}
-
 
 .btn{
   padding: 5px 5px 5px 5px;

@@ -22,14 +22,15 @@ var networkUsed = 0;
 var cores = 1;
 
 var diskCost = 4;
-var memoryCost = 16;
+var memoryCost = 64;
 var networkCost = 256;
 var cpuCost = 128;
-var moduleCost = 32;
+var moduleCost = 24;
 var coreCost = 512;
 
-var memoryUpgrades = 0;
 var diskUpgrades = 0;
+var memoryUpgrades = 0;
+var networkUpgrades = 0;
 var cpuUpgrades = 0;
 var coreUpgrades = 0;
 var moduleUpgrades = 0;
@@ -96,9 +97,16 @@ $("#blocksAvailable").html(availableBlocks);
 $("#blocksCreated").html(createdBlocks);
 $("#blocksProcessed").html(processedBlocks);
 $("#diskCost").html(diskCost);
+$("#moduleCost").html(moduleCost);
+$("#coreCost").html(coreCost);
+$("#networkCost").html(networkCost);
+$("#cpuCost").html(cpuCost);
+$("#memoryCost").html(memoryCost);
+
 
   $(document).keypress(function() {
     console.log(event.which);
+    if (!$('#commandLine').is(':focus')) {
       if (event.which == 102 && firstInstruction == 1 && cycleBlocked != 1){
         fetch = 1;
         $("#fetch").css('color','#cfcfd3')
@@ -107,7 +115,6 @@ $("#diskCost").html(diskCost);
       if (event.which == 102 && wb == 1 && cycleBlocked != 1){
         fetch = 1;
         wb = 0;
-        $("#wb").toggleClass('cycleFinished')
         $("#fetch").css('color','#cfcfd3')
       }
       if (event.which == 102 && cycleBlocked != 1){
@@ -134,27 +141,145 @@ $("#diskCost").html(diskCost);
       }
       if (event.which == 107 && mem == 1){
         $("#mem").css('color', 'grey')
-        $("#wb").toggleClass('cycleFinished')
         if(diskUsed < disk){
+          $("#wb").toggleClass('cycleFinished')
+          setTimeout(
+          function()
+          {
+            $("#wb").toggleClass('cycleFinished')
+          }, 700);
           wb = 1;
           mem = 0;
           createBlock();
+          cycleBlocked = 0;
         }
         else{
           cycleBlocked = 1;
           $("#wb").toggleClass('cycleBlocked')
+          setTimeout(
+          function()
+          {
+            $("#wb").toggleClass('cycleBlocked')
+          }, 700);
           //log storage error
         }
       }
-
-    });
+      if (event.which == 97){
+        if(availableBlocks >= moduleCost){
+          $("#moduleUpgrade").toggleClass('sufficient');
+          setTimeout(
+          function()
+          {
+            $("#moduleUpgrade").toggleClass('sufficient')
+          }, 700);
+          moduleUpgrades++;
+          console.log(moduleUpgrades);
+          availableBlocks= availableBlocks-moduleCost;
+          processedBlocks+=moduleCost;
+          $("#blocksProcessed").html(processedBlocks);
+          $("#blocksAvailable").html(availableBlocks);
+          moduleCost = moduleCost*4;
+          $("#moduleCost").html(moduleCost);
+          if(moduleUpgrades == 1){
+            $("#taskAutomations").css("visibility", "visible");
+          }
+          else if(moduleUpgrades == 2){
+            $("#resourceAllocation").css("visibility", "visible");
+            //enable block-producing opportunities from connections
+          }
+          else if(moduleUpgrades == 3){
+            $("#connections").css("visibility", "visible");
+            $("#networkPercent").css("visibility", "visible")
+            //enable block-producing opportunities from connections
+          }
+          else if(moduleUpgrades == 4){
+            $("#assets").css("visibility", "visible");
+            //enable money-making opportunities from connections
+          }
+          else if(moduleUpgrades == 5){
+            $("#researchDevelopment").css("visibility", "visible");
+          }
+          else if(moduleUpgrades == 6){
+            $("#realmStatus").css("visibility", "visible");
+            $("#newsTicker").css("visibility", "visible");
+            $("#moduleUpgrade").css("visibility", "hidden");
+          }
+          //log upgrade in console
+        }
+        else{
+          $("#moduleUpgrade").toggleClass('insufficient');
+          setTimeout(
+          function()
+          {
+            $("#moduleUpgrade").toggleClass('insufficient')
+          }, 700);
+          //log not enough blocks
+        }
+      }
+      if (event.which == 100){
+        if(availableBlocks >= diskCost){
+          $("#diskUpgrade").toggleClass('sufficient');
+          setTimeout(
+          function()
+          {
+            $("#diskUpgrade").toggleClass('sufficient')
+          }, 700);
+          diskUpgrades++;
+          availableBlocks= availableBlocks-diskCost;
+          processedBlocks+=diskCost;
+          $("#blocksProcessed").html(processedBlocks);
+          $("#blocksAvailable").html(availableBlocks);
+          if(diskUpgrades == 2){
+            $("#memoryUpgrade").css("visibility", "visible");
+            $("#cpuUpgrade").css("visibility", "visible");
+            $("#moduleUpgrade").css("visibility", "visible");
+          }
+          disk = disk*4;
+          diskCost = diskCost*3;
+          $("#diskCost").html(diskCost);
+          $("#diskPercent").html((diskUsed/disk*100).toFixed(0) + "%");
+          //log upgrade in console
+        }
+        else{
+          $("#diskUpgrade").toggleClass('insufficient');
+          setTimeout(
+          function()
+          {
+            $("#diskUpgrade").toggleClass('insufficient')
+          }, 700);
+          //log not enough blocks
+        }
+      }
+    }
+    else{
+      if (event.which == 13) command();
+    }
+  });
 };
 
 function createBlock(){
     createdBlocks = createdBlocks + 1*cores;
     availableBlocks = availableBlocks + 1*cores;
-    diskUsed+=1;
+    diskUsed=availableBlocks;
     $("#blocksAvailable").html(availableBlocks);
     $("#blocksCreated").html(createdBlocks);
-    $("#diskPercent").html((diskUsed/disk)*100 + "%");
+    $("#diskPercent").html((diskUsed/disk*100).toFixed(0) + "%");
 };
+
+function command(){
+  var str = $("#commandLine").val();
+   var change = str.split(" ", 2);
+   if(change[0] == "disk"){
+      disk = parseInt(change[1]);
+      $("#diskPercent").html((diskUsed/disk*100).toFixed(0) + "%");
+   }
+   else if(change[0] == "blocks"){
+      availableBlocks = parseInt(change[1]);
+      $("#blocksAvailable").html(availableBlocks);
+   }
+   else{
+     $("#output").html("command not found");
+   }
+   $("#commandLine").val("");
+
+}
