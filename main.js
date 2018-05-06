@@ -470,6 +470,7 @@ function blockAutomationLoopFunc() {
     clearInterval(blockAutomationLoop);
   }
   setTimeout(function() {
+    $("#wb").css('color','grey')
     $("#fetch").css('color','#cfcfd3')
     setTimeout(function() {
       $("#fetch").css('color', 'grey')
@@ -487,22 +488,22 @@ function blockAutomationLoopFunc() {
   }, blockAutomationTimeout);
   $("#mem").css('color', 'grey')
   if(diskUsed < disk){
-    $("#wb").toggleClass('cycleFinished')
+    $("#wb").css('color', 'green')
     setTimeout(
     function()
     {
-      $("#wb").toggleClass('cycleFinished')
+      $("#wb").css('color', 'grey')
     }, blockAutomationTimeout);
     createBlock();
     cycleBlocked = 0;
   }
   else{
     cycleBlocked = 1;
-    $("#wb").toggleClass('cycleBlocked')
+    $("#wb").css('color', 'red')
     setTimeout(
     function()
     {
-      $("#wb").toggleClass('cycleBlocked')
+      $("#wb").css('color', 'grey')
     }, blockAutomationTimeout);
     commandOutput("CYCLE BLOCKED (NOT ENOUGH STORAGE)")
   }
