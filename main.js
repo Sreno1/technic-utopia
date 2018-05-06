@@ -152,6 +152,13 @@ function gameLoop(){
       }
     }
   });
+  Mousetrap.bind('`', function(){
+    if (!$('#commandLine').is(':focus')) {
+      setTimeout(function(){$("#commandLine").focus()}, 100);
+
+      $("#commandLine").val();
+    }
+  });
   Mousetrap.bind('g', function(){
     if (!$('#commandLine').is(':focus')) {
       if (fetch == 1){
