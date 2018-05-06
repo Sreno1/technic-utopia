@@ -43,6 +43,7 @@ var blockAutomationTimeout = 1000;
 var blockAutomationTime = 5;
 var cpuUsedBlockAutomation = 16;
 var cpuUsedBeforeBlockAutomation = 0;
+var blockAutomationLoop;
 
 var cpuAllocation = 0;
 
@@ -339,48 +340,7 @@ function gameLoop(){
         $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
         $("#blockStatus").html("ON");
         $("#blockTime").html(blockAutomationTime + "s");
-          var blockAutomationLoop = setInterval(function() {
-            if (blockAutomation == 0){
-              clearInterval(blockAutomationLoop);
-            }
-            setTimeout(function() {
-              $("#fetch").css('color','#cfcfd3')
-              setTimeout(function() {
-                $("#fetch").css('color', 'grey')
-                $("#decode").css('color','#cfcfd3')
-                setTimeout(function() {
-                  $("#decode").css('color', 'grey')
-                  $("#execute").css('color','#cfcfd3')
-                  setTimeout(function() {
-                    $("#execute").css('color', 'grey')
-                    $("#mem").css('color','#cfcfd3')
-                    mem = 1;
-                  }, blockAutomationTimeout);
-                }, blockAutomationTimeout);
-              }, blockAutomationTimeout);
-            }, blockAutomationTimeout);
-            $("#mem").css('color', 'grey')
-            if(diskUsed < disk){
-              $("#wb").toggleClass('cycleFinished')
-              setTimeout(
-              function()
-              {
-                $("#wb").toggleClass('cycleFinished')
-              }, blockAutomationTimeout);
-              createBlock();
-              cycleBlocked = 0;
-            }
-            else{
-              cycleBlocked = 1;
-              $("#wb").toggleClass('cycleBlocked')
-              setTimeout(
-              function()
-              {
-                $("#wb").toggleClass('cycleBlocked')
-              }, blockAutomationTimeout);
-              commandOutput("CYCLE BLOCKED (NOT ENOUGH STORAGE)")
-            }
-          }, blockAutomationSpeed);
+        blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
       }
       else{
         blockAutomation = 0;
@@ -449,6 +409,8 @@ function addCPUAllocation(){
       $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
       $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
     }
+    clearInterval(blockAutomationLoop);
+    blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
     cpuAllocation++;
   }
   else{
@@ -469,6 +431,8 @@ function detractCPUAllocation(){
       $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
       $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
       cpuAllocation--;
+      clearInterval(blockAutomationLoop);
+      blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
     }
     else if (blockAutomationTime > 4999){
       commandOutput("MINIMUM CPU USAGE");
@@ -483,6 +447,8 @@ function detractCPUAllocation(){
       $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
       $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
       cpuAllocation--;
+      clearInterval(blockAutomationLoop);
+      blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
     }
   }
   else{
@@ -490,4 +456,47 @@ function detractCPUAllocation(){
   }
 
 
+};
+
+function blockAutomationLoopFunc() {
+  if (blockAutomation == 0){
+    clearInterval(blockAutomationLoop);
+  }
+  setTimeout(function() {
+    $("#fetch").css('color','#cfcfd3')
+    setTimeout(function() {
+      $("#fetch").css('color', 'grey')
+      $("#decode").css('color','#cfcfd3')
+      setTimeout(function() {
+        $("#decode").css('color', 'grey')
+        $("#execute").css('color','#cfcfd3')
+        setTimeout(function() {
+          $("#execute").css('color', 'grey')
+          $("#mem").css('color','#cfcfd3')
+          mem = 1;
+        }, blockAutomationTimeout);
+      }, blockAutomationTimeout);
+    }, blockAutomationTimeout);
+  }, blockAutomationTimeout);
+  $("#mem").css('color', 'grey')
+  if(diskUsed < disk){
+    $("#wb").toggleClass('cycleFinished')
+    setTimeout(
+    function()
+    {
+      $("#wb").toggleClass('cycleFinished')
+    }, blockAutomationTimeout);
+    createBlock();
+    cycleBlocked = 0;
+  }
+  else{
+    cycleBlocked = 1;
+    $("#wb").toggleClass('cycleBlocked')
+    setTimeout(
+    function()
+    {
+      $("#wb").toggleClass('cycleBlocked')
+    }, blockAutomationTimeout);
+    commandOutput("CYCLE BLOCKED (NOT ENOUGH STORAGE)")
+  }
 };
