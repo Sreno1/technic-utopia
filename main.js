@@ -1,4 +1,5 @@
 var powered = 0;
+var started = 0;
 var processedBlocks = 0;
 var availableBlocks = 0;
 var createdBlocks = 0;
@@ -70,7 +71,8 @@ var powerCallback = function() {
       var checkMoz=(e.which==13 ? 1 : 0);
 
       if (checkWebkitandIE || checkMoz)
-        gameLoop();
+        if (!started)
+          gameLoop();
   });
   };
 };
@@ -89,6 +91,12 @@ function begin(){
 
 
 function gameLoop(){
+  started=1;
+
+  $('.tooltip').tooltipster({
+    plugins: ['follower']
+});
+
   if($("#name").val() != "")
     $("#commanderName").html($("#name").val());
   else {
@@ -118,6 +126,7 @@ function gameLoop(){
 
   $( "#commandLine" ).blur(function() {
   $( "#commandLine" ).val("");
+
 });
 
 
@@ -134,7 +143,6 @@ function gameLoop(){
          commandOutput(str);
       }
       $("#commandLine").val("");
-      return false;
     }
   });
   Mousetrap.bind('f', function(){
@@ -193,12 +201,12 @@ function gameLoop(){
       if (mem == 1){
         if(diskUsed < disk){
           $("#mem").css('color', 'grey')
-          $("#wb").toggleClass('cycleFinished')
+          $("#wb").css('color', 'green')
           setTimeout(
           function()
           {
-            $("#wb").toggleClass('cycleFinished')
-          }, 700);
+            $("#wb").css('color', 'grey')
+          }, 500);
           wb = 1;
           mem = 0;
           createBlock();
@@ -206,12 +214,12 @@ function gameLoop(){
         }
         else{
           cycleBlocked = 1;
-          $("#wb").toggleClass('cycleBlocked')
+          $("#wb").css('color', 'red')
           setTimeout(
           function()
           {
-            $("#wb").toggleClass('cycleBlocked')
-          }, 700);
+            $("#wb").css('color', 'grey')
+          }, 500);
           commandOutput("CYCLE BLOCKED (NOT ENOUGH STORAGE)")
         }
       }
@@ -347,6 +355,12 @@ function gameLoop(){
         $("#blockStatus").html("ON");
         $("#blockTime").html(1/(blockAutomationSpeed/1000) + "/s");
         blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
+        $("#automateBlocks").toggleClass('starting');
+        setTimeout(
+        function()
+        {
+          $("#automateBlocks").toggleClass('starting')
+        }, 4000);
       }
       else{
         blockAutomation = 0;
@@ -356,8 +370,17 @@ function gameLoop(){
         cpuUsedBeforeBlockAutomation = 0;
         cpuUsedBlockAutomation = 16;
         memoryUsed -= 16*cpuAllocation;
+        blockAutomationSpeed = 5000;
+        blockAutomationTimeout = 1000;
+        cpuUsedBlockAutomation = 16;
         $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
         $("#memoryPercent").html((memoryUsed/cpu*100).toFixed(0) + "%");
+        $("#automateBlocks").toggleClass('ending');
+        setTimeout(
+        function()
+        {
+          $("#automateBlocks").toggleClass('ending')
+        }, 4000);
         fetch = 0;
         decode = 0;
         execute = 0;
@@ -395,24 +418,13 @@ function commandOutput(outputString){
 
 function addCPUAllocation(){
   if (blockAutomation == 1){
-    /*if (blockAutomationSpeed > 1000){
-      blockAutomationSpeed -= 1000;
-      blockAutomationTimeout -= 200;
-      cpuUsed = cpuUsed * 2;
-      $("#blockTime").html(1/(blockAutomationSpeed/1000) + "/s");
-      memoryUsed += 16;
-      $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
-      $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
-    }
-    else{*/
-      blockAutomationSpeed = blockAutomationSpeed/2;
-      blockAutomationTimeout = blockAutomationTimeout/2;
-      cpuUsed = cpuUsed * 2;
-      $("#blockTime").html(1/(blockAutomationSpeed/1000) + "/s");
-      memoryUsed += 16;
-      $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
-      $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
-    //}
+    blockAutomationSpeed = blockAutomationSpeed/2;
+    blockAutomationTimeout = blockAutomationTimeout/2;
+    cpuUsed = cpuUsed * 2;
+    $("#blockTime").html(1/(blockAutomationSpeed/1000) + "/s");
+    memoryUsed += 16;
+    $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
+    $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
     clearInterval(blockAutomationLoop);
     blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
     cpuAllocation++;
@@ -425,19 +437,7 @@ function addCPUAllocation(){
 
 function detractCPUAllocation(){
   if (blockAutomation == 1){
-    /*if (blockAutomationSpeed > 1000){
-      blockAutomationSpeed += 1000;
-      blockAutomationTimeout += 200;
-      cpuUsed = cpuUsed/2;
-      $("#blockTime").html(1/(blockAutomationSpeed/1000) + "/s");
-      memoryUsed -= 16;
-      $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
-      $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
-      cpuAllocation--;
-      clearInterval(blockAutomationLoop);
-      blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
-    }*/
-    /*else*/ if (blockAutomationSpeed > 4999){
+    if (blockAutomationSpeed > 4999){
       commandOutput("MINIMUM CPU USAGE");
     }
     else{

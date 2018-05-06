@@ -8,6 +8,10 @@
     <script src="https://craig.global.ssl.fastly.net/js/mousetrap/mousetrap.min.js?a4098"></script>
     <script src="main.js" type="text/javascript"></script>   
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="tooltipster-follower/dist/css/tooltipster-follower.min.css" />
+    <script type="text/javascript" src="tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+    <script type="text/javascript" src="tooltipster-follower/dist/js/tooltipster-follower.min.js"></script>
   </head>
   <body onload="begin()">
     <div id="pipeline"><ul><li class="first" id="fetch">fetch instruction <span class="key">f</span></li><li id="decode">identify operation <span class="key">g</span></li><li id="execute">execute <span class="key">h</span></li><li id="mem">r/w memory <span class="key">j</span></li><li id="wb">store to register <span class="key">k</span></li></ul></div>
@@ -83,7 +87,7 @@
         <div class="sectionTitle">
           task automations
         </div>
-        <div class="automationContainer" id="automateBlocks">
+        <div class="automationContainer tooltip" title="Automatically create blocks over time using CPU. You may still create them manually." id="automateBlocks">
           <div class="automationTitle">block [c]reation</div>
           <div class="automationStatus" id="blockStatus"></div>
           <div class="automationTime" id="blockTime"></div>
