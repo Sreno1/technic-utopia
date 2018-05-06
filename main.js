@@ -29,6 +29,8 @@ var cpuCost = 96;
 var moduleCost = 16;
 var coreCost = 512;
 
+var memoryUpgradeMult = 1;
+
 var diskUpgrades = 0;
 var memoryUpgrades = 0;
 var networkUpgrades = 0;
@@ -143,6 +145,7 @@ function gameLoop(){
          commandOutput(str);
       }
       $("#commandLine").val("");
+      $("#commandLine").blur();
     }
   });
   Mousetrap.bind('f', function(){
@@ -249,6 +252,8 @@ function gameLoop(){
           $("#resourceAllocation").css("visibility", "visible");
           $("#memoryUpgrade").css("visibility", "visible");
           $("#cpuUpgrade").css("visibility", "visible");
+          $('#cpuPlus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed*2)/cpu)*100).toFixed(0) + "%");
+          $('#cpuMinus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed/2)/cpu)*100).toFixed(0) + "%");
         }
         else if(moduleUpgrades == 3){
           $("#connections").css("visibility", "visible");
@@ -328,7 +333,8 @@ function gameLoop(){
         diskUsed = availableBlocks;
         $("#blocksProcessed").html(processedBlocks);
         $("#blocksAvailable").html(availableBlocks);
-        memory = memory*2;
+        memory = memory + memoryUpgradeMult*16;
+        memoryUpgradeMult++;
         memoryCost = memoryCost*4;
         $("#memoryCost").html(memoryCost);
         $("#memoryPercent").html((diskUsed/disk*100).toFixed(0) + "%");
@@ -361,6 +367,8 @@ function gameLoop(){
         {
           $("#automateBlocks").toggleClass('starting')
         }, 4000);
+        $('#cpuPlus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed*2)/cpu)*100).toFixed(0) + "%");
+        $('#cpuMinus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed/2)/cpu)*100).toFixed(0) + "%");
       }
       else{
         blockAutomation = 0;
@@ -382,6 +390,8 @@ function gameLoop(){
         {
           $("#automateBlocks").toggleClass('ending')
         }, 4000);
+        $('#cpuPlus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed*2)/cpu)*100).toFixed(0) + "%");
+        $('#cpuMinus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed/2)/cpu)*100).toFixed(0) + "%");
         fetch = 0;
         decode = 0;
         execute = 0;
@@ -418,25 +428,35 @@ function commandOutput(outputString){
 };
 
 function addCPUAllocation(){
-  if (blockAutomation == 1){
-    blockAutomationSpeed = blockAutomationSpeed/2;
-    blockAutomationTimeout = blockAutomationTimeout/2;
-    cpuUsed = cpuUsed * 2;
-    $("#blockTime").html(1/(blockAutomationSpeed/1000) + "/s");
-    memoryUsed += 16;
-    $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
-    $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
-    clearInterval(blockAutomationLoop);
-    blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
-    cpuAllocation++;
-  }
-  else{
-    commandOutput("NO AUTOMATIONS RUNNING");
-  }
 
+  if (blockAutomation == 1){
+      if(memoryUsed+16 <= memory){
+          if(cpuUsed*2 <= cpu){
+            blockAutomationSpeed = blockAutomationSpeed/2;
+            blockAutomationTimeout = blockAutomationTimeout/2;
+            cpuUsed = cpuUsed * 2;
+            $("#blockTime").html(1/(blockAutomationSpeed/1000) + "/s");
+            memoryUsed += 16;
+            $("#memoryPercent").html((memoryUsed/memory*100).toFixed(0) + "%");
+            $("#cpuPercent").html((cpuUsed/cpu*100).toFixed(0) + "%");
+            clearInterval(blockAutomationLoop);
+            blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
+            cpuAllocation++;
+            $('#cpuPlus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed*2)/cpu)*100).toFixed(0) + "%");
+            $('#cpuMinus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed/2)/cpu)*100).toFixed(0) + "%");
+          }
+      }
+      else{
+        commandOutput("NOT ENOUGH MEMORY");
+      }
+    }
+    else{
+      commandOutput("NO AUTOMATIONS RUNNING");
+    }
 };
 
 function detractCPUAllocation(){
+
   if (blockAutomation == 1){
     if (blockAutomationSpeed > 4999){
       commandOutput("MINIMUM CPU USAGE");
@@ -452,12 +472,13 @@ function detractCPUAllocation(){
       cpuAllocation--;
       clearInterval(blockAutomationLoop);
       blockAutomationLoop = setInterval(blockAutomationLoopFunc, blockAutomationSpeed);
+      $('#cpuPlus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed*2)/cpu)*100).toFixed(0) + "%");
+      $('#cpuMinus').tooltipster('content', 'Predicted CPU Usage: ' + (((cpuUsed/2)/cpu)*100).toFixed(0) + "%");
     }
   }
   else{
     commandOutput("NO AUTOMATIONS RUNNING");
   }
-
 
 };
 
