@@ -364,6 +364,7 @@ function gameLoop(){
       }
       else{
         blockAutomation = 0;
+        clearInterval(blockAutomationLoop);
         $("#blockStatus").html("OFF");
         $("#blockTime").html("");
         cpuUsed = cpuUsedBeforeBlockAutomation;
@@ -461,9 +462,6 @@ function detractCPUAllocation(){
 };
 
 function blockAutomationLoopFunc() {
-  if (blockAutomation == 0){
-    clearInterval(blockAutomationLoop);
-  }
   setTimeout(function() {
     $("#wb").css('color','grey')
     $("#fetch").css('color','#cfcfd3')
